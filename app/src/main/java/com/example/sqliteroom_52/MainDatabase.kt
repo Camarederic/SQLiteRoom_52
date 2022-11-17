@@ -8,6 +8,8 @@ import androidx.room.RoomDatabase
 @Database(entities = [Item::class], version = 1)
 abstract class MainDatabase : RoomDatabase() {
 
+    abstract fun getDao(): Dao
+
     companion object {
         fun getDatabase(context: Context): MainDatabase {
             return Room.databaseBuilder(
