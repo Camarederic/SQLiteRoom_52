@@ -2,6 +2,7 @@ package com.example.sqliteroom_52
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.lifecycle.asLiveData
 import com.example.sqliteroom_52.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -14,6 +15,14 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         val database = MainDatabase.getDatabase(this)
+
+        database.getDao().getAllItem().asLiveData().observe(this){ list ->
+            binding.textViewList.text = ""
+            list.forEach{
+                val text = "Id: ${it.id} Name: ${it.name} Price: ${it.price}\n"
+                binding.textViewList.append(text)
+            }
+        }
 
         binding.buttonSave.setOnClickListener {
             val name = binding.editTextName.text.toString()
